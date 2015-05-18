@@ -1,0 +1,45 @@
+{
+  "name": "pimatic-upnp-root",
+  "description": "Pimatic UPnP Root-Device to advertise the Pimatic web interface on the Local Network",
+  "author": {
+    "name": "Marcus Wittig",
+    "url": "https://github.com/mwittig/pimatic-upnp-root"
+  },
+  "main": "upnp-root",
+  "files": [
+    "upnp-root.coffee",
+    "README.md",
+    "upnp-root-config-schema.coffee",
+    "LICENSE"
+  ],
+  "version": "0.0.1",
+  "homepage": "https://github.com/mwittig/pimatic-upnp-root",
+  "keywords": [
+    "pimatic",
+    "UPnP"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mwittig/pimatic-upnp-root.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mwittig/pimatic-upnp-root/issues"
+  },
+  "licenses": [
+    {
+      "type": "GPLv2",
+      "url": "https://github.com/mwittig/pimatic-upnp-root/blob/master/LICENSE"
+    }
+  ],
+  "configSchema": "upnp-root-config-schema.coffee",
+  "dependencies": {
+    "peer-upnp": ">=0.0.2"
+  },
+  "peerDependencies": {
+    "pimatic": ">0.8.19"
+  },
+  "engines": {
+    "node": ">0.8.x",
+    "npm": ">1.1.x"
+  }
+}
