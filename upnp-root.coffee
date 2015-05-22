@@ -40,7 +40,7 @@ module.exports = (env) ->
       return false if not _.isObject obj or not _.isString path
       keys = path.split '.'
       for key in keys
-        if not _.isObject obj or not obj.hasOwnProperty key
+        if not _.isObject(obj) or not obj.hasOwnProperty(key)
           return false
         obj = obj[key]
       return true
@@ -57,15 +57,18 @@ module.exports = (env) ->
       unless presentationURL
         env.logger.warn "No presentationURL set"
         address = @_getAddress 'IPv4' || @_getAddress 'IPv6' || 'localhost'
-        pConfig = require '../../config.json'
-        if @_has pConfig, 'settings.httpServer.port'
-          presentationURL = 'http://' + address + ':' + pConfig.settings.httpServer.port
-        else if @_has pConfig, 'settings.httpsServer.port'
-          presentationURL = 'https://' + address + ':' + pConfig.settings.httpsServer.port
+        pConfig = @framework.config
+
+        if @_has(pConfig, 'settings.httpsServer.enabled') and pConfig.settings.httpsServer.enabled
+          presentationURL = 'https://' + address + ':' + (pConfig.settings.httpsServer.port || 443)
+        else if @_has(pConfig, 'settings.httpServer')
+          httpServer = pConfig.settings.httpServer
+          if (if _.isBoolean(httpServer.enabled) then httpServer.enabled else true)
+            presentationURL = 'http://' + address + ':' + (httpServer.port || 80)
         env.logger.warn "Using fallback: " + presentationURL if _.isString presentationURL
 
       pimaticVersion = require('../pimatic/package.json').version
-
+      device = null
       peer = upnp.createPeer({
         prefix: "/upnp",
         server: server
@@ -73,9 +76,9 @@ module.exports = (env) ->
       peer.on "ready", (peer) =>
         env.logger.debug("UPnP peer ready")
         device = peer.createDevice({
-          autoAdvertise: true,
-          root: false,
-          deviceType: "upnp:rootdevice",
+          autoAdvertise: false,
+          root: true,
+          deviceType: "urn:schemas-upnp-org:device:Basic:1.0",
           uuid: @config.uuid,
           productName: "Pimatic",
           productVersion: pimaticVersion,
@@ -98,6 +101,7 @@ module.exports = (env) ->
 #          }]
           presentationURL: presentationURL || ""
         })
+        device.advertise()
 
       peer.start()
 
