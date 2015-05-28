@@ -12,13 +12,15 @@ Pimatic UPnP Root-Device to advertise the Pimatic web interface on the Local Net
 
 You can load the plugin by editing your `config.json` to include the following in the `plugins` section. The property `
  presentationURL` specifies the URL of the pimatic web interface. If not set, a fallback will bet set. The property 
+'friendlyName' set the friendly name of the device. It is set to "Pimatic Smart Home" by default. The property 
  'port' refers to the listener port of the UPnP peer to let other devices query the UPnP device description. The port is
  set to 8008 by default. Note, on first startup the plugin creates an unique identifier which will be stored as part
- of the configuration. A 'uuid' property will show up.
+ of the configuration. A 'uuid' property will be added to the configuration file.
 
     { 
        "plugin": "upnp-root",
        "presentationURL": "http://raspberrypi.fritz.box",
+       "friendlyName": "Pimatic Smart Home",
        "port": 8008
     }
 
@@ -30,3 +32,5 @@ You can load the plugin by editing your `config.json` to include the following i
     * Fixed typos
     * Now using device type Basic:1.0 instead upnp:rootdevice
     * Fixed fallback code
+* 20150528, V0.0.3
+    * Added `friendlyName` property. Updated README.

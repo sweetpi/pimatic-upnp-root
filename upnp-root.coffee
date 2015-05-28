@@ -84,7 +84,7 @@ module.exports = (env) ->
           productVersion: pimaticVersion,
           domain: "schemas-upnp-org",
           version: "1",
-          friendlyName: "Pimatic Smart Home",
+          friendlyName: @config.friendlyName,
           manufacturer: "Pimatic.org",
           manufacturerURL: "http://www.pimatic.org",
           modelName: "Pimatic Smart Home",
