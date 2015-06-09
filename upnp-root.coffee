@@ -5,9 +5,12 @@ module.exports = (env) ->
 # Require the bluebird promise library
   Promise = env.require 'bluebird'
   _ = env.require 'lodash'
-  net = require 'net'
-  os = require 'os'
-  http = require("http")
+  url = env.require('url')
+  fs = env.require('fs')
+  fpath = env.require('path')
+  net = env.require 'net'
+  os = env.require 'os'
+  http = env.require("http")
   upnp = require("peer-upnp")
 
   # ###UPnPRootPlugin class
@@ -45,8 +48,27 @@ module.exports = (env) ->
         obj = obj[key]
       return true
 
+    _serveIcon: (peer) ->
+      peer.on "iconRequest", (pathname, response) =>
+        env.logger.debug "Device icon requested: #{pathname}"
+
+        fs.readFile fpath.normalize('node_modules/pimatic-upnp-root/' + pathname), (error, data) =>
+          unless error
+            mimeType = 'image/png'
+            if pathname.lastIndexOf('.jpg') >= 0
+              mimeType = 'image/jpeg'
+            else if pathname.lastIndexOf('.bmp') >= 0
+              mimeType = 'image/bmp'
+
+            response.writeHead(200, {'Content-Type': mimeType });
+            response.end(data, 'binary');
+          else
+            env.logger.debug "Device icon error: #{error.toString()}"
+            response.statusCode = 404;
+            response.end("Not found");
+
     init: (app, @framework, @config) =>
-      server = http.createServer();
+      server = http.createServer()
       server.listen @config.port
 
       unless @config.uuid
@@ -73,6 +95,7 @@ module.exports = (env) ->
         prefix: "/upnp",
         server: server
       })
+      @_serveIcon peer
       peer.on "ready", (peer) =>
         env.logger.debug("UPnP peer ready")
         device = peer.createDevice({
@@ -92,13 +115,27 @@ module.exports = (env) ->
           modelURL: "http://www.pimatic.org",
           modelNumber: pimaticVersion || "unknown",
           serialNumber: "",
-#          icons: [{
-#            url: "http://forum.pimatic.org/uploads/files/site-logo.jpg",
-#            mimetype: "image/jpeg",
-#            width: 102,
-#            height: 99,
-#            depth: 24
-#          }]
+          icons: [{
+            url: "/icons/logo_app_icon.bmp",
+            mimetype: "image/bmp",
+            width: 48,
+            height: 48,
+            depth: 24
+          },
+          {
+            url: "/icons/logo_app_icon.jpg",
+            mimetype: "image/jpeg",
+            width: 48,
+            height: 48,
+            depth: 24
+          },
+          {
+            url: "/icons/logo_app_icon.png",
+            mimetype: "image/png",
+            width: 48,
+            height: 48,
+            depth: 24
+          }]
           presentationURL: presentationURL || ""
         })
         device.advertise()

@@ -35,7 +35,7 @@
   ],
   "configSchema": "upnp-root-config-schema.coffee",
   "dependencies": {
-    "peer-upnp": ">=0.0.2"
+    "peer-upnp": "git+https://github.com/mwittig/peer-upnp.git"
   },
   "peerDependencies": {
     "pimatic": ">0.8.19"
