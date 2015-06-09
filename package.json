@@ -14,7 +14,7 @@
     "screenshots/screenshot-1.png",
     "screenshots/screenshot-2.png"
   ],
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "https://github.com/mwittig/pimatic-upnp-root",
   "keywords": [
     "pimatic",
