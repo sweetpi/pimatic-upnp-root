@@ -52,7 +52,7 @@ module.exports = (env) ->
       peer.on "iconRequest", (pathname, response) =>
         env.logger.debug "Device icon requested: #{pathname}"
 
-        fs.readFile fpath.normalize('node_modules/pimatic-upnp-root/' + pathname), (error, data) =>
+        fs.readFile fpath.normalize(__dirname + '/' + pathname), (error, data) =>
           unless error
             mimeType = 'image/png'
             if pathname.lastIndexOf('.jpg') >= 0
