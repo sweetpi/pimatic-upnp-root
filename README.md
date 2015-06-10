@@ -34,6 +34,8 @@ You can load the plugin by editing your `config.json` to include the following i
     * Fixed fallback code
 * 20150528, V0.0.3
     * Added `friendlyName` property. Updated README.
-* 20150609, V0.0.4
+* 20150609, V0.0.4 (release for testing, only)
     * Added device icons.
     * Now using a peer-upnp fork which handles icon requests
+* 20150611, V0.0.5
+    * Fixed icon path
