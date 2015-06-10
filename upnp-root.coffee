@@ -48,29 +48,34 @@ module.exports = (env) ->
         obj = obj[key]
       return true
 
-    _serveIcon: (peer) ->
-      peer.on "iconRequest", (pathname, response) =>
-        env.logger.debug "Device icon requested: #{pathname}"
+    _serveIcons: (server) ->
+      server.on "request", (request, response) =>
+        requestUrl = url.parse request.url, true
+        unless requestUrl.pathname.indexOf('/upnp') is 0
+          if requestUrl.pathname.indexOf("/icons") is 0
+            env.logger.debug "Device icon requested: #{requestUrl.pathname}"
 
-        fs.readFile fpath.normalize(__dirname + '/' + pathname), (error, data) =>
-          unless error
-            mimeType = 'image/png'
-            if pathname.lastIndexOf('.jpg') >= 0
-              mimeType = 'image/jpeg'
-            else if pathname.lastIndexOf('.bmp') >= 0
-              mimeType = 'image/bmp'
+            console.log fpath.normalize(__dirname + '/' + requestUrl.pathname)
+            fs.readFile fpath.normalize(__dirname + '/' + requestUrl.pathname), (error, data) =>
+              unless error
+                mimeType = 'image/png'
+                if requestUrl.pathname.lastIndexOf('.jpg') >= 0
+                  mimeType = 'image/jpeg'
+                else if requestUrl.pathname.lastIndexOf('.bmp') >= 0
+                  mimeType = 'image/bmp'
 
-            response.writeHead(200, {'Content-Type': mimeType });
-            response.end(data, 'binary');
-          else
-            env.logger.debug "Device icon error: #{error.toString()}"
-            response.statusCode = 404;
-            response.end("Not found");
+                response.writeHead(200, {'Content-Type': mimeType });
+                response.end(data, 'binary')
+                return;
+              else
+                env.logger.debug "Device icon error: #{error.toString()}"
+            response.statusCode = 404
+            response.end("Not found")
 
     init: (app, @framework, @config) =>
       server = http.createServer()
       server.listen @config.port
-
+      @_serveIcons server
       unless @config.uuid
         @config.uuid = @_getUUID()
         env.logger.debug "New Device UUID: " + @config.uuid
@@ -95,7 +100,7 @@ module.exports = (env) ->
         prefix: "/upnp",
         server: server
       })
-      @_serveIcon peer
+
       peer.on "ready", (peer) =>
         env.logger.debug("UPnP peer ready")
         device = peer.createDevice({
