@@ -12,7 +12,10 @@
     "upnp-root-config-schema.coffee",
     "LICENSE",
     "screenshots/screenshot-1.png",
-    "screenshots/screenshot-2.png"
+    "screenshots/screenshot-2.png",
+    "icons/logo_app_icon.bmp",
+    "icons/logo_app_icon.jpg",
+    "icons/logo_app_icon.png"
   ],
   "version": "0.0.5",
   "homepage": "https://github.com/mwittig/pimatic-upnp-root",

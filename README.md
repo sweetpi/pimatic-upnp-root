@@ -39,3 +39,5 @@ You can load the plugin by editing your `config.json` to include the following i
     * Now using a peer-upnp fork which handles icon requests
 * 20150611, V0.0.5
     * Fixed icon path
+* 20150618, V0.0.6
+    * Added missing icon file references to "files" property in package.json
