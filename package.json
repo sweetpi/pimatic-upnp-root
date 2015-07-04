@@ -17,7 +17,7 @@
     "icons/logo_app_icon.jpg",
     "icons/logo_app_icon.png"
   ],
-  "version": "0.0.6",
+  "version": "0.0.7",
   "homepage": "https://github.com/mwittig/pimatic-upnp-root",
   "keywords": [
     "pimatic",
