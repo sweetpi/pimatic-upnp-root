@@ -41,3 +41,6 @@ You can load the plugin by editing your `config.json` to include the following i
     * Fixed icon path
 * 20150618, V0.0.6
     * Added missing icon file references to "files" property in package.json
+* 20150704, V0.0.7
+    * Revised license information to provide a SPDX 2.0 license identifier in consonance with npm v2.1 guidelines on 
+      license metadata - see also https://github.com/npm/npm/releases/tag/v2.10.0

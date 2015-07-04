@@ -30,12 +30,7 @@
   "bugs": {
     "url": "https://github.com/mwittig/pimatic-upnp-root/issues"
   },
-  "licenses": [
-    {
-      "type": "GPLv2",
-      "url": "https://github.com/mwittig/pimatic-upnp-root/blob/master/LICENSE"
-    }
-  ],
+  "license": "GPL-2.0",
   "configSchema": "upnp-root-config-schema.coffee",
   "dependencies": {
     "peer-upnp": "git+https://github.com/mwittig/peer-upnp.git"
