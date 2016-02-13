@@ -36,7 +36,7 @@
     "peer-upnp": "git+https://github.com/mwittig/peer-upnp.git"
   },
   "peerDependencies": {
-    "pimatic": ">0.8.19"
+    "pimatic": ">=0.8.99"
   },
   "engines": {
     "node": ">0.8.x",
